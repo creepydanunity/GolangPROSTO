@@ -25,7 +25,7 @@ import (
 	"log"
 	"time"
 
-	pb "GolangPROSTO/api/proto"
+	pb "GolangPROSTO/backend/api/proto"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -57,5 +57,5 @@ func main() {
 	if err != nil {
 		log.Fatalf("could not get: %v", err)
 	}
-	log.Printf("Page: %s", r.GetRequestedPage())
+	log.Printf("Page: %s", r.GetComponents())
 }
