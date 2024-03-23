@@ -7,7 +7,7 @@ import (
 	"log"
 	"net"
 
-	pb "GolangPROSTO/api/proto"
+	pb "GolangPROSTO/backend/api/proto"
 
 	"google.golang.org/grpc"
 )
