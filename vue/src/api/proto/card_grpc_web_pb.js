@@ -135,6 +135,5 @@ proto.card.ComponentsGetterPromiseClient.prototype.getPage =
 };
 
 
-//module.exports = proto.card;
-export default proto.card.ComponentsGetterClient;
+module.exports = proto.card;
 

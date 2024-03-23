@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package card;
+
+option go_package = "./card";
+
+service ComponentsGetter {
+    rpc GetPage (PageRequest) returns (PageReply) {}
+}
+
+message PageRequest {
+    string page = 1;
+  }
+
+message PageReply {
+    repeated Component components = 1;
+}
+
+message Component {
+    string type = 1;
+    repeated Prop props = 2;
+    repeated Component children = 3;
+    int32 id = 4;
+}
+
+message Prop {
+    string prop_name = 1;
+    string prop_value = 2;
+}

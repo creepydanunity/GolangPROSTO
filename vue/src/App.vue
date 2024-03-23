@@ -2,9 +2,8 @@
 import CardWrapper from './components/CardWrapper.vue'
 import Navbar from './components/Navbar.vue';
 import { ref, onMounted } from 'vue';
-import { ComponentsGetterClient } from './api/proto/card_grpc_web_pb';
-import { PageReply, PageRequest } from './api/proto/card_pb';
-
+import { ComponentsGetterClient } from "./api/proto/bundle";
+import { PageRequest } from './gen/card_pb'
 const page = ref({});
 
 const pageService = new ComponentsGetterClient('http://localhost:8080');
