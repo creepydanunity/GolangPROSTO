@@ -25,15 +25,40 @@ func (s *server) GetPage(ctx context.Context, in *pb.PageRequest) (*pb.PageReply
 
 	comps := []*pb.Component{
 		{
-			Type: "example_type",
+			Type: "NavBar",
 			Props: []*pb.Prop{
 				{
-					PropName:  "prop1",
-					PropValue: "value1",
+					PropName:  "Button",
+					PropValue: "text",
 				},
 			},
 			Children: []*pb.Component{},
 			Id:       1,
+		},
+
+		{
+			Type: "Wrapper",
+			Props: []*pb.Prop{
+				{},
+			},
+			Children: []*pb.Component{
+				{
+					Type: "ItemCard",
+					Props: []*pb.Prop{
+						{
+							PropName:  "img",
+							PropValue: "url",
+						},
+						{
+							PropName:  "Name",
+							PropValue: "Price",
+						},
+					},
+					Children: []*pb.Component{},
+					Id:       1,
+				},
+			},
+			Id: 1,
 		},
 	}
 
