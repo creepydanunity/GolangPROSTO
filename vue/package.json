@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "google-protobuf": "^3.21.2",
+    "grpc-web": "^1.5.0",
     "vue": "^3.4.21"
   },
   "devDependencies": {
