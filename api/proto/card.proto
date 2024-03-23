@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package card;
+
+option go_package = "./card";
+
+service ComponentsGetter {
+    rpc GetPage (PageRequest) returns (PageReply) {}
+}
+
+message PageRequest {
+    string page = 1;
+  }
+
+message PageReply {
+    string requested_page = 1;
+}
