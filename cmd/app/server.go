@@ -30,8 +30,9 @@ func (s *server) GetPage(ctx context.Context, in *pb.PageRequest) (*pb.PageReply
 				{
 					PropName:  "Button",
 					PropValue: "text",
-        }
-      Children: []*pb.Component{},
+				},
+			},
+			Children: []*pb.Component{},
 			Id:       1,
 		},
 
@@ -56,7 +57,7 @@ func (s *server) GetPage(ctx context.Context, in *pb.PageRequest) (*pb.PageReply
 					Children: []*pb.Component{},
 					Id:       3,
 				},
-        {
+				{
 					Type: "ItemCard",
 					Props: []*pb.Prop{
 						{
