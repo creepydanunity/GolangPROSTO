@@ -22,7 +22,26 @@ type server struct {
 
 func (s *server) GetPage(ctx context.Context, in *pb.PageRequest) (*pb.PageReply, error) {
 	log.Printf("Received: %v", in.GetPage())
-	return &pb.PageReply{}, nil
+
+	comps := []*pb.Component{
+		{
+			Type: "example_type",
+			Props: []*pb.Prop{
+				{
+					PropName:  "prop1",
+					PropValue: "value1",
+				},
+			},
+			Children: []*pb.Component{},
+			Id:       1,
+		},
+	}
+
+	reply := &pb.PageReply{
+		Components: comps,
+	}
+
+	return reply, nil
 }
 
 func main() {
