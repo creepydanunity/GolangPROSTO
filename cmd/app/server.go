@@ -69,7 +69,7 @@ func (s *server) GetPage(ctx context.Context, in *pb.PageRequest) (*pb.PageReply
 						},
 					},
 					Children: []*pb.Component{},
-					Id:       3,
+					Id:       4,
 				},
 			},
 			Id: 2,
