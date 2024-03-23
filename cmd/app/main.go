@@ -22,7 +22,7 @@ type server struct {
 
 func (s *server) GetPage(ctx context.Context, in *pb.PageRequest) (*pb.PageReply, error) {
 	log.Printf("Received: %v", in.GetPage())
-	return &pb.PageReply{RequestedPage: "Addressed page: " + in.GetPage()}, nil
+	return &pb.PageReply{}, nil
 }
 
 func main() {
