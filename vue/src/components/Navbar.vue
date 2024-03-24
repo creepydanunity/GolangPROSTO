@@ -3,8 +3,8 @@
         <div class="logo">Купи поддон</div>
         <nav class="navigation">
             <ul>
-                <li><a href="#home">Тык</a></li>
-                <li><a href="#about">Тык</a></li>
+                <RouterLink to="/">Купить</RouterLink>
+                <RouterLink to="/about">О нас</RouterLink>
             </ul>
         </nav>
     </header>
@@ -22,6 +22,7 @@
     padding: 1rem 2rem;
     background-color: #333;
     color: #fff;
+    margin-bottom: 1.5rem;
 }
 
 .logo {

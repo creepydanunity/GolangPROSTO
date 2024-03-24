@@ -19,7 +19,7 @@ defineProps({
 const emit = defineEmits(['add-to-cart']);
 
 const addToCart = () => {
-    emit('add-to-cart', props.item);
+    emit('add-to-cart');
 };
 </script>
 
