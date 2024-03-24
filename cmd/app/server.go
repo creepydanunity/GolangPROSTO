@@ -26,7 +26,7 @@ const (
 
 func GetPage(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w)
-	//w.Header().Set("Content-Type", "application/octet-stream")
+
 	params := mux.Vars(r)["id"]
 
 	if params == "1" {
@@ -92,6 +92,67 @@ func GetPage(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	if params == "2" {
+		comps := []*pb.Component{
+			{
+				Type: "NavBar",
+				Props: []*pb.Prop{
+					{
+						PropName:  "Button",
+						PropValue: "text",
+					},
+				},
+				Children: []*pb.Component{},
+				Id:       1,
+			},
+			{
+				Type: "Heading",
+				Props: []*pb.Prop{
+					{
+						PropName:  "text",
+						PropValue: "Some description",
+					},
+				},
+				Children: []*pb.Component{},
+				Id:       2,
+			},
+			{
+				Type: "Paragraph",
+				Props: []*pb.Prop{
+					{
+						PropName:  "text",
+						PropValue: "Big description",
+					},
+				},
+				Children: []*pb.Component{},
+				Id:       3,
+			},
+			{
+				Type: "Image",
+				Props: []*pb.Prop{
+					{
+						PropName:  "src",
+						PropValue: "https://lesvrn.com/images/01/poddon-derevyannyj-1200h800.jpg",
+					},
+				},
+			},
+		}
+		reply := &pb.PageReply{
+			Components: comps,
+		}
+
+		answer, err := proto.Marshal(reply)
+
+		if err != nil {
+			fmt.Println("An error occurred:", err)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/octet-stream")
+		w.Write(answer)
+	}
+
 }
 
 var schema = `
@@ -106,8 +167,8 @@ CREATE TABLE items (
 
 INSERT INTO items (img, name, price) VALUES
 	('https://axelpack.ru/image/cache/catalog/GOST-9557-87-600x600.png', 'Поддон1', '110'),
-	('https://axelpack.ru/image/cache/catalog/GOST-9557-87-600x600.png', 'Поддон2', '100'),
-	('https://axelpack.ru/image/cache/catalog/GOST-9557-87-600x600.png', 'Поддон3', '95'),
+	('https://domingo.su/images/main/BIG/000-388-241.jpg', 'Поддон2', '100'),
+	('https://domingo.su/images/main/BIG/000-388-241.jpg', 'Поддон3', '95'),
 	('https://axelpack.ru/image/cache/catalog/GOST-9557-87-600x600.png', 'Поддон4', '105');
 
 `
