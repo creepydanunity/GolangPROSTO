@@ -3,6 +3,9 @@ import { ref, onMounted } from 'vue';
 import Navbar from '../components/Navbar.vue';
 import CardWrapper from '../components/CardWrapper.vue';
 import Card from '../components/Card.vue';
+import Image from '../components/Image.vue'
+import Heading from '../components/Heading.vue'
+import Paragraph from '../components/Paragraph.vue'
 import { PageReply, PageRequest } from '../proto/card';
 import * as protobuf from 'protobufjs'
 
@@ -13,7 +16,9 @@ const componentsMap = {
   'NavBar': Navbar,
   'Wrapper': CardWrapper,
   'ItemCard': Card,
-  
+  Image,
+  Heading,
+  Paragraph
 };
 
 const get = async () => {
@@ -23,6 +28,7 @@ const get = async () => {
   const deserialized_data = PageReply.decode(uint_data);
 
   page.value = deserialized_data;
+  console.log(deserialized_data)
 };
 
 onMounted(() => {

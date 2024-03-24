@@ -122,7 +122,7 @@ func GetPage(w http.ResponseWriter, r *http.Request) {
 				Props: []*pb.Prop{
 					{
 						PropName:  "text",
-						PropValue: "Big description",
+						PropValue: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque interdum magna at dui finibus, at accumsan augue pulvinar. Aenean cursus est sed nibh faucibus vestibulum. Integer lacinia metus et mollis scelerisque. Ut sagittis eleifend nibh a posuere. Sed in molestie risus. Proin sed metus eu arcu consectetur viverra. Quisque non ultricies ante. Praesent eu volutpat nibh. Proin finibus ipsum eros, ut consequat diam fringilla sit amet. Nulla facilisi. Suspendisse ac quam orci. Sed at consectetur sapien, sit amet maximus erat. ",
 					},
 				},
 				Children: []*pb.Component{},
