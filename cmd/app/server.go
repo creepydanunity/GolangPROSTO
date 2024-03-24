@@ -87,6 +87,7 @@ func GetPage(w http.ResponseWriter, r *http.Request) {
 		}
 
 		w.WriteHeader(http.StatusOK)
+		fmt.Println(answer)
 		w.Header().Set("Content-Type", "application/octet-stream")
 		w.Write(answer)
 
@@ -149,6 +150,7 @@ func GetPage(w http.ResponseWriter, r *http.Request) {
 		}
 
 		w.WriteHeader(http.StatusOK)
+		fmt.Println(answer)
 		w.Header().Set("Content-Type", "application/octet-stream")
 		w.Write(answer)
 	}
