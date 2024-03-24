@@ -136,6 +136,8 @@ func GetPage(w http.ResponseWriter, r *http.Request) {
 						PropValue: "https://lesvrn.com/images/01/poddon-derevyannyj-1200h800.jpg",
 					},
 				},
+				Children: []*pb.Component{},
+				Id:       4,
 			},
 		}
 		reply := &pb.PageReply{
