@@ -2,13 +2,12 @@ package main
 
 import (
 	pb "GolangPROSTO/backend/api/proto"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 
-	"github.com/golang/protobuf/proto"
 	"github.com/gorilla/mux"
+	"google.golang.org/protobuf/proto"
 )
 
 func enableCors(w *http.ResponseWriter) {
@@ -17,7 +16,7 @@ func enableCors(w *http.ResponseWriter) {
 
 func GetPage(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w)
-	w.Header().Set("Content-Type", "application/json")
+	//w.Header().Set("Content-Type", "application/octet-stream")
 	params := mux.Vars(r)["id"]
 
 	if params == "1" {
@@ -69,6 +68,21 @@ func GetPage(w http.ResponseWriter, r *http.Request) {
 						Children: []*pb.Component{},
 						Id:       4,
 					},
+					{
+						Type: "ItemCard",
+						Props: []*pb.Prop{
+							{
+								PropName:  "img",
+								PropValue: "url",
+							},
+							{
+								PropName:  "Name",
+								PropValue: "Price",
+							},
+						},
+						Children: []*pb.Component{},
+						Id:       5,
+					},
 				},
 				Id: 2,
 			},
@@ -82,9 +96,12 @@ func GetPage(w http.ResponseWriter, r *http.Request) {
 
 		if err != nil {
 			fmt.Println("An error occurred:", err)
+			return
 		}
 
-		json.NewEncoder(w).Encode(answer)
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/octet-stream")
+		w.Write(answer)
 
 	}
 
