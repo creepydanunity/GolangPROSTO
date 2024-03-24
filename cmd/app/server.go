@@ -1,101 +1,97 @@
 package main
 
 import (
-	"context"
-	"flag"
+	pb "GolangPROSTO/backend/api/proto"
+	"encoding/json"
 	"fmt"
 	"log"
-	"net"
+	"net/http"
 
-	pb "GolangPROSTO/backend/api/proto"
-
-	"google.golang.org/grpc"
+	"github.com/golang/protobuf/proto"
+	"github.com/gorilla/mux"
 )
 
-var (
-	port = flag.Int("port", 50051, "The server port")
-)
-
-type server struct {
-	pb.UnimplementedComponentsGetterServer
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 }
 
-func (s *server) GetPage(ctx context.Context, in *pb.PageRequest) (*pb.PageReply, error) {
-	log.Printf("Received: %v", in.GetPage())
+func GetPage(w http.ResponseWriter, r *http.Request) {
+	enableCors(&w)
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)["id"]
 
-	comps := []*pb.Component{
-		{
-			Type: "NavBar",
-			Props: []*pb.Prop{
-				{
-					PropName:  "Button",
-					PropValue: "text",
-				},
-			},
-			Children: []*pb.Component{},
-			Id:       1,
-		},
-		{
-			Type: "Wrapper",
-			Props: []*pb.Prop{
-				{},
-			},
-			Children: []*pb.Component{
-				{
-					Type: "ItemCard",
-					Props: []*pb.Prop{
-						{
-							PropName:  "img",
-							PropValue: "url",
-						},
-						{
-							PropName:  "Name",
-							PropValue: "Price",
-						},
+	if params == "1" {
+		comps := []*pb.Component{
+			{
+				Type: "NavBar",
+				Props: []*pb.Prop{
+					{
+						PropName:  "Button",
+						PropValue: "text",
 					},
-					Children: []*pb.Component{},
-					Id:       3,
 				},
-				{
-					Type: "ItemCard",
-					Props: []*pb.Prop{
-						{
-							PropName:  "img",
-							PropValue: "url",
-						},
-						{
-							PropName:  "Name",
-							PropValue: "Price",
-						},
-					},
-					Children: []*pb.Component{},
-					Id:       4,
-				},
+				Children: []*pb.Component{},
+				Id:       1,
 			},
-			Id: 2,
-		},
+			{
+				Type: "Wrapper",
+				Props: []*pb.Prop{
+					{},
+				},
+				Children: []*pb.Component{
+					{
+						Type: "ItemCard",
+						Props: []*pb.Prop{
+							{
+								PropName:  "img",
+								PropValue: "url",
+							},
+							{
+								PropName:  "Name",
+								PropValue: "Price",
+							},
+						},
+						Children: []*pb.Component{},
+						Id:       3,
+					},
+					{
+						Type: "ItemCard",
+						Props: []*pb.Prop{
+							{
+								PropName:  "img",
+								PropValue: "url",
+							},
+							{
+								PropName:  "Name",
+								PropValue: "Price",
+							},
+						},
+						Children: []*pb.Component{},
+						Id:       4,
+					},
+				},
+				Id: 2,
+			},
+		}
+
+		reply := &pb.PageReply{
+			Components: comps,
+		}
+
+		answer, err := proto.Marshal(reply)
+
+		if err != nil {
+			fmt.Println("An error occurred:", err)
+		}
+
+		json.NewEncoder(w).Encode(answer)
+
 	}
 
-	reply := &pb.PageReply{
-		Components: comps,
-	}
-
-	return reply, nil
 }
 
 func main() {
-	flag.Parse()
-
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
-
-	s := grpc.NewServer()
-	pb.RegisterComponentsGetterServer(s, &server{})
-
-	log.Printf("server listening at %v", lis.Addr())
-	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
-	}
+	r := mux.NewRouter()
+	r.HandleFunc("/pages/{id}", GetPage).Methods("GET")
+	log.Fatal(http.ListenAndServe(":8000", r))
 }
