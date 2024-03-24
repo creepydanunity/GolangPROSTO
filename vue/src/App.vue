@@ -3,16 +3,20 @@ import CardWrapper from './components/CardWrapper.vue'
 import Navbar from './components/Navbar.vue';
 import { ref, onMounted } from 'vue';
 import { PageReply, PageRequest } from './proto/card';
-//import { PageRequest } from './proto/card'
+import * as protobuf from 'protobufjs'
 
 const page = ref({});
 
-//request.setMessage('1');
+const get = async () => {
+  const res = await fetch('http://localhost:8000/pages/1')
+  const data = await res.json()
+  page.value = data
+  console.log(page.value)
+}
 
-// pageService.GetPage(request, {}, function(err, response) {
-//   page.value = response.comps;
-//   console.log(page.value);
-// });
+onMounted(() => {
+  get()
+})
 
 
 </script>
