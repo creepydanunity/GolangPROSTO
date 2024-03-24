@@ -7,12 +7,22 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 	"google.golang.org/protobuf/proto"
 )
 
 func enableCors(w *http.ResponseWriter) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 }
+
+const (
+	host     = "localhost"
+	port     = 5432
+	user     = "postgres"
+	password = ""
+	dbname   = "prosto"
+)
 
 func GetPage(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w)
@@ -37,55 +47,32 @@ func GetPage(w http.ResponseWriter, r *http.Request) {
 				Props: []*pb.Prop{
 					{},
 				},
-				Children: []*pb.Component{
+				Children: []*pb.Component{},
+				Id:       2,
+			},
+		}
+
+		for _, s := range items {
+			item := pb.Component{
+				Type: "ItemCard",
+				Props: []*pb.Prop{
 					{
-						Type: "ItemCard",
-						Props: []*pb.Prop{
-							{
-								PropName:  "img",
-								PropValue: "url",
-							},
-							{
-								PropName:  "Name",
-								PropValue: "Price",
-							},
-						},
-						Children: []*pb.Component{},
-						Id:       3,
+						PropName:  "img",
+						PropValue: s.Img,
 					},
 					{
-						Type: "ItemCard",
-						Props: []*pb.Prop{
-							{
-								PropName:  "img",
-								PropValue: "url",
-							},
-							{
-								PropName:  "Name",
-								PropValue: "Price",
-							},
-						},
-						Children: []*pb.Component{},
-						Id:       4,
+						PropName:  "name",
+						PropValue: s.Name,
 					},
 					{
-						Type: "ItemCard",
-						Props: []*pb.Prop{
-							{
-								PropName:  "img",
-								PropValue: "url",
-							},
-							{
-								PropName:  "Name",
-								PropValue: "Price",
-							},
-						},
-						Children: []*pb.Component{},
-						Id:       5,
+						PropName:  "price",
+						PropValue: s.Price,
 					},
 				},
-				Id: 2,
-			},
+				Children: []*pb.Component{},
+				Id:       s.Id,
+			}
+			comps[1].Children = append(comps[1].Children, &item)
 		}
 
 		reply := &pb.PageReply{
@@ -107,7 +94,61 @@ func GetPage(w http.ResponseWriter, r *http.Request) {
 
 }
 
+var schema = `
+DROP TABLE items;
+
+CREATE TABLE items (
+	id SERIAL PRIMARY KEY,
+	img varchar(100),
+	name varchar(50),
+	price varchar(10)
+);
+
+INSERT INTO items (img, name, price) VALUES
+	('https://axelpack.ru/image/cache/catalog/GOST-9557-87-600x600.png', 'Поддон1', '110'),
+	('https://axelpack.ru/image/cache/catalog/GOST-9557-87-600x600.png', 'Поддон2', '100'),
+	('https://axelpack.ru/image/cache/catalog/GOST-9557-87-600x600.png', 'Поддон3', '95'),
+	('https://axelpack.ru/image/cache/catalog/GOST-9557-87-600x600.png', 'Поддон4', '105');
+
+`
+
+type DBItem struct {
+	Id    int32
+	Img   string
+	Name  string
+	Price string
+}
+
+var items = []DBItem{}
+
 func main() {
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
+
+	db, err := sqlx.Open("postgres", psqlInfo)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer db.Close()
+
+	err = db.Ping()
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Postgres DB connected!")
+
+	db.MustExec(schema)
+
+	if err := db.Select(&items, "SELECT * FROM items"); err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(items)
+
 	r := mux.NewRouter()
 	r.HandleFunc("/pages/{id}", GetPage).Methods("GET")
 	log.Fatal(http.ListenAndServe(":8000", r))
