@@ -43,11 +43,15 @@ func GetPage(w http.ResponseWriter, r *http.Request) {
 						Props: []*pb.Prop{
 							{
 								PropName:  "img",
-								PropValue: "url",
+								PropValue: "https://axelpack.ru/image/cache/catalog/GOST-9557-87-600x600.png",
 							},
 							{
-								PropName:  "Name",
-								PropValue: "Price",
+								PropName:  "name",
+								PropValue: "Поддон",
+							},
+							{
+								PropName:  "price",
+								PropValue: "100",
 							},
 						},
 						Children: []*pb.Component{},
@@ -58,11 +62,15 @@ func GetPage(w http.ResponseWriter, r *http.Request) {
 						Props: []*pb.Prop{
 							{
 								PropName:  "img",
-								PropValue: "url",
+								PropValue: "https://axelpack.ru/image/cache/catalog/GOST-9557-87-600x600.png",
 							},
 							{
-								PropName:  "Name",
-								PropValue: "Price",
+								PropName:  "name",
+								PropValue: "Поддон",
+							},
+							{
+								PropName:  "price",
+								PropValue: "100",
 							},
 						},
 						Children: []*pb.Component{},
@@ -73,11 +81,15 @@ func GetPage(w http.ResponseWriter, r *http.Request) {
 						Props: []*pb.Prop{
 							{
 								PropName:  "img",
-								PropValue: "url",
+								PropValue: "https://axelpack.ru/image/cache/catalog/GOST-9557-87-600x600.png",
 							},
 							{
-								PropName:  "Name",
-								PropValue: "Price",
+								PropName:  "name",
+								PropValue: "Поддон",
+							},
+							{
+								PropName:  "price",
+								PropValue: "100",
 							},
 						},
 						Children: []*pb.Component{},

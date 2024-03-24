@@ -1,21 +1,20 @@
 <template>
     <div class="item-card">
-        <img :src="item.image" alt="?" class="item-image" />
-        <h3 class="item-name">{{ item.name }}</h3>
-        <p class="item-price">{{ item.price }}р.</p>
+        <img :src="img" alt="?" class="item-image" />
+        <h3 class="item-name">{{ name }}</h3>
+        <p class="item-price">{{ price }}р.</p>
         <button @click="addToCart">В корзину</button>
     </div>
 </template>
 
 <script setup lang="ts">
 import { defineProps, defineEmits } from 'vue';
-
-const props = defineProps({
-    item: {
-        type: Object,
-        required: true,
-    },
+defineProps({
+    img: String,
+    name: String,
+    price: String,
 });
+
 
 const emit = defineEmits(['add-to-cart']);
 
